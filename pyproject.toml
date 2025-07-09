@@ -6,6 +6,7 @@
 
 [project]
 name = "dprs"
+version = "0.2.1"
 description = "A package that provides functionality to compute Discounted Permutation Relevance Score(DPRS)"
 
 # You can change this to README.md if you prefer.
@@ -40,6 +41,11 @@ requires-python = ">= 3.9"
 # example.  Your list will be completely different.
 dependencies = [
     "rich",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0.0"
 ]
 
 # State that the version will be defined dynamically below.
