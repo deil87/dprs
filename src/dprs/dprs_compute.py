@@ -16,7 +16,7 @@ def get_combinations(rank_list, debug=False):
     return gt_combinations
 
     
-def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=True, debug=False):
+def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=True, return_penalties=False, debug=False):
 
     total_penalty = 0
     all_penalties = []
@@ -27,7 +27,6 @@ def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=
     # Construct dicts
     gt_dict = index_combinations(gt_combinations)
     rp_dict = index_combinations(rp_combinations)
-
     
     weights_raw = np.array(list(range(1, len(ground_truth) + 1))[::-1])
     wn = weights_raw / sum(weights_raw)
@@ -36,8 +35,7 @@ def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=
     for gt_key, gt_pair in gt_dict.items():
         print(f"Ground truth: {gt_pair}") if debug else {}
         predicted_pair = rp_dict[gt_key]
-        print(f"Predicted value: {predicted_pair}") if debug else {}
-        
+        print(f"Predicted value: {predicted_pair}") if debug else {}    
         
         # order check: penalty for wrong order
         (gt_l, gt_li), (gt_r, gt_ri) = gt_pair
@@ -45,46 +43,23 @@ def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=
         wrong_order = False
         if gt_l != pr_l:
             wrong_order = True
-            print(f"{gt_l} vs {pr_l}  penalize order") if debug else {}
+            print(f"{gt_l} vs {pr_l}  wrong order") if debug else {}
             (pr_r, pr_ri), (pr_l, pr_li) = (pr_l, pr_li), (pr_r, pr_ri)
-            # print(f"Swapped order: {predicted_pair} ==> {(pr_l, pr_li), (pr_r, pr_ri)}")
-            predicted_pair = (pr_l, pr_li), (pr_r, pr_ri)
+            predicted_pair = (pr_l, pr_li), (pr_r, pr_ri)    
             
-            
-        # distance changed: (9-6) - (1-0) = 2
-        if penalize_pair_distance_change:
-            distance_change = abs(abs(gt_li - gt_ri) - abs(pr_li - pr_ri))
-        else:
-            distance_change = 1
-        print(f"distance_change: {distance_change}") if debug else {}
-        
-        # absolute location: 6 - 0 = 6
-        importance_index = gt_li if gt_li < gt_ri else gt_ri
-        importance_coef = len(ground_truth ) - importance_index
-        print(f"importance coef.: {importance_coef}") if debug else {}
-        
-        # penalty = (3 if wrong_order else 1) * (distance_change + 1) * importance_coef
         left_travel_penalty =  sum(wn[gt_li:pr_li]) if gt_li < pr_li else sum(wn[pr_li: gt_li])
         right_travel_penalty = sum(wn[gt_ri:pr_ri]) if gt_ri < pr_ri else sum(wn[pr_ri: gt_ri])
         penalty = left_travel_penalty + right_travel_penalty
-                    
 
-        if gt_key in ["02", "09", "79", "07"] and debug:
-            print(f"Ground truth: {gt_pair} -> {predicted_pair}")
-            print(f"{gt_key} penalty({penalty}) = (3 if wrong_order={wrong_order} else 1) * (distance_change={distance_change} + 1) * importance_coef={importance_coef}")
-            print(f"{gt_key} penalty({penalty} lt {left_travel_penalty} , rt {right_travel_penalty}) = (3 if wrong_order={wrong_order} else 1) * (distance_change={distance_change} + 1) * importance_coef={importance_coef}")
-            
-            
-        #0,1,2     7,8,9
-        #2,1,0     9,8,7
-        #(0,2) -> (2,0) vs  (7,9) -> (9,7) vs (0,8) -> (8,0)
-        #(0,7) -> 7 is on 9 index vs 7 is on 5 index
-        
-        
         print(f"Penalty: {penalty}") if debug else {}
+        
         total_penalty += penalty
         all_penalties.append(penalty)
+        
         print("="*25) if debug else {}
     
     # print(f"Total penalty: {total_penalty}")
-    return total_penalty, all_penalties
+    if return_penalties:
+        return total_penalty, all_penalties
+    else:
+        return total_penalty

@@ -3,8 +3,7 @@ from dprs import dprs
 def test_two_same():
     """Test that is checking that score for same lists is zero."""
     lista = range(10)
-    score, _ = dprs(lista,lista)
-    assert score == 0
+    assert dprs(lista,lista) == 0
     
     
 def test_rank_shift_direction():
@@ -17,4 +16,9 @@ def test_rank_shift_direction():
     list_shift_right = [0, 1, 2, 3, 4, 5, 6, 9, 8, 7]  # 7 <-> 9
     list_shift_left = [0, 1, 2, 3, 4, 7, 6, 5, 8, 9]   # 7 <-> 5
 
-    assert dprs(lista,list_shift_right)[0] < dprs(lista,list_shift_left)[0]
+    assert dprs(lista,list_shift_right) < dprs(lista,list_shift_left)
+    
+    
+#0,1,2     7,8,9
+#2,1,0     9,8,7
+#(0,2) -> (2,0) vs  (7,9) -> (9,7) vs (0,8) -> (8,0)
