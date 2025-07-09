@@ -4,24 +4,18 @@ Discounted Permutation Relevance Score
 A short description of what your package does.
 
 .. image:: https://img.shields.io/pypi/v/myawesomepackage.svg
-   :target: https://pypi.org/project/myawesomepackage/
+   :target: https://pypi.org/project/dprs/
    :alt: PyPI version
 
-Features
---------
-
-- Easy installation
-- Fast and lightweight
-- Pythonic API
 
 Installation
 ------------
 
-You can install MyAwesomePackage using pip:
+You can install `dprs` using pip:
 
 .. code-block:: bash
 
-   pip install myawesomepackage
+   pip install dprs
 
 Usage
 -----
@@ -30,14 +24,16 @@ Here’s a simple example:
 
 .. code-block:: python
 
-   from myawesomepackage import do_awesome_thing
+   from dprs import dprs
 
-   do_awesome_thing()
+   ranking_list = range(10)
+   predictad_ranked_list = random.sample(ranking_list, len(ranking_list))
+   dprs(ranking_list,predictad_ranked_list)
 
 Documentation
 -------------
 
-For full documentation, visit the `project page <https://github.com/yourusername/myawesomepackage>`_.
+For full documentation, visit the `project page <https://github.com/deil87/dprs>`_.
 
 License
 -------
@@ -46,4 +42,4 @@ Apache 2.0 License
 
 ----
 
-*Copyright (c) 2025 Your Name*
+*Copyright (c) 2025 Andrey Spiridonov*
