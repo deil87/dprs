@@ -56,9 +56,9 @@ dynamic = ["version"]
 # have no commands.  The names of the settings are the command names.
 # The values are a string in the form "module.to.import:function_to_run".
 
-# The 'dprs' command will run the function dprs() in the
+# The 'dprs' command will run the function dprs_cli() in the
 # src/dprs/main.py file.
-dprs = "dprs.main:dprs"
+dprs = "dprs.main:dprs_cli"
 
 [tool.setuptools.dynamic]
 # The version number will be read from __version__ in src/dprs/__init__.py

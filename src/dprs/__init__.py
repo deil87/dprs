@@ -4,3 +4,7 @@
 # a new release.  The most popular approach is to use Semantic Versioning,
 # described at https://semver.org/
 __version__ = "0.1.1"
+
+from .main import dprs
+
+__all__ = ["dprs"]
