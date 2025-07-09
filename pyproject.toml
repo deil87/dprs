@@ -1,0 +1,69 @@
+# This file configures the project for packaging, and can also hold other
+# tools' configuration settings.
+#
+# More details about what can go in this file:
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[project]
+name = "dprs"
+description = "A package that provides functionality to compute Discounted Permutation Relevance Score(DPRS)"
+
+# You can change this to README.md if you prefer.
+readme = "README.rst"
+
+# Put your own name and email address here. You can also add more authors.
+authors = [
+    {name = "Andrey Spiridonov", email = "spirtik87@gmail.com"},
+]
+
+# You can choose a different license: https://choosealicense.com/
+# If you do, update the License classifier below, and put the correct text into
+# your LICENSE.txt file.
+license = "Apache-2.0"
+
+# Classifiers for your package. PyPI displays these on its page.
+# See https://pypi.org/classifiers/ for all of the possibilities.
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+# This is the minimum version of Python that pip will install your package on.
+requires-python = ">= 3.9"
+
+# List your needed third-party libraries, if you have any.  "rich" is here as an
+# example.  Your list will be completely different.
+dependencies = [
+    "rich",
+]
+
+# State that the version will be defined dynamically below.
+dynamic = ["version"]
+
+[project.urls]
+# These URLs are displayed in a sidebar on PyPI. You don't have to have them,
+# but they can help people learn more about your project. You can include as
+# many named URLs as you want.  They can be any URL, not just to GitHub.
+"Source code" = "https://github.com/deil87/dprs"
+
+[project.scripts]
+# COMMANDS: These are commands you are installing.  Omit this section if you
+# have no commands.  The names of the settings are the command names.
+# The values are a string in the form "module.to.import:function_to_run".
+
+# The 'dprs' command will run the function dprs() in the
+# src/dprs/main.py file.
+dprs = "dprs.main:dprs"
+
+[tool.setuptools.dynamic]
+# The version number will be read from __version__ in src/dprs/__init__.py
+version.attr = "dprs.__version__"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
