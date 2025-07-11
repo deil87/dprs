@@ -1,7 +1,7 @@
 Discounted Permutation Relevance Score
 =========================================
 
-A short description of what your package does.
+This package provides methods to compute ranking quality metric called Discounted Permutation Relevance Score (DPR score)
 
 .. image:: https://img.shields.io/pypi/v/myawesomepackage.svg
    :target: https://pypi.org/project/dprs/

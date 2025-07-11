@@ -18,6 +18,9 @@ def get_combinations(rank_list, debug=False):
     
 def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=True, return_penalties=False, debug=False):
 
+    l_size = len(ground_truth)
+    assert l_size == len(predicted_ranking), "Input lists must be of the same size."
+
     total_penalty = 0
     all_penalties = []
 
@@ -28,9 +31,17 @@ def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=
     gt_dict = index_combinations(gt_combinations)
     rp_dict = index_combinations(rp_combinations)
     
-    weights_raw = np.array(list(range(1, len(ground_truth) + 1))[::-1])
+    weights_raw = np.array(list(range(1, l_size + 1))[::-1])
     wn = weights_raw / sum(weights_raw)
     print(wn) if debug else {}
+    
+    orig_pair_weakness_weights = np.array(list(range(1, l_size - 1 + 1))[::-1])
+    opww = orig_pair_weakness_weights / sum(orig_pair_weakness_weights)
+    print(opww) if debug else {}
+    
+    pair_rel_dist_weights = np.array(list(range(1, (l_size - 1)*2 + 1))) # note: no reversion here!
+    prdw = pair_rel_dist_weights / sum(pair_rel_dist_weights)
+    print(prdw) if debug else {}
 
     for gt_key, gt_pair in gt_dict.items():
         print(f"Ground truth: {gt_pair}") if debug else {}
@@ -50,6 +61,15 @@ def dprs_compute(ground_truth, predicted_ranking, penalize_pair_distance_change=
         left_travel_penalty =  sum(wn[gt_li:pr_li]) if gt_li < pr_li else sum(wn[pr_li: gt_li])
         right_travel_penalty = sum(wn[gt_ri:pr_ri]) if gt_ri < pr_ri else sum(wn[pr_ri: gt_ri])
         penalty = left_travel_penalty + right_travel_penalty
+        
+        # Account for original strength of the pair ( less distance, more impact). both cases should be valid - getting closer or further away)
+        orig_pair_distance = abs(gt_ri - gt_li)
+        penalty *= opww[orig_pair_distance - 1]
+        
+        # Multiply by rel distance change ( not absolute but relative aspect) 
+        predicted_pair_dist = pr_ri - pr_li
+        pair_dist_rel_change = orig_pair_distance - predicted_pair_dist
+        penalty *= prdw[pair_dist_rel_change - 1]
 
         print(f"Penalty: {penalty}") if debug else {}
         

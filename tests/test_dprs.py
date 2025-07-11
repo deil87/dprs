@@ -1,4 +1,5 @@
 from dprs import dprs
+import pytest
 
 def test_two_same():
     """Test that is checking that score for same lists is zero."""
@@ -19,6 +20,31 @@ def test_rank_shift_direction():
     assert dprs(lista,list_shift_right) < dprs(lista,list_shift_left)
     
     
+
+@pytest.mark.parametrize("a, b, expected", [
+    (1, 2, 3),
+    (2, 3, 5),
+    (0, 0, 0),
+])
+def test_add(a, b, expected):
+    """Test add function with various inputs."""
+    assert a <= b
+    
 #0,1,2     7,8,9
 #2,1,0     9,8,7
 #(0,2) -> (2,0) vs  (7,9) -> (9,7) vs (0,8) -> (8,0)
+
+
+def test_monotonic_discount():
+    """
+    Test checks that similar swaps lead to a different scores depending on the location
+    """
+    lista = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    list_shift_right = [0, 1, 2, 3, 4, 5, 6, 9, 8, 7]  # 7 <-> 9
+    list_shift_left = [0, 1, 2, 3, 4, 7, 6, 5, 8, 9]   # 7 <-> 5
+
+    assert True == False
+    
+    
+def test_equal_lengths():
+    pass
