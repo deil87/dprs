@@ -48,3 +48,21 @@ def test_monotonic_discount():
     
 def test_equal_lengths():
     pass
+
+def test_unusual_case():
+    """
+    Unusual case 1 (NDCG 0.8939 -> 0.9325 vs 0.6678 -> 0.6355  ): [4, 0, 3, 2, 5, 1, 6] [5, 0, 3, 2, 4, 1, 6]
+    
+    4 and 5 swap. Originaly 4 and 5 have dist. 1 ( next to each other). 
+    Then if the order is changed it should be seen as worser version. 
+    Less relevat item took first rank and rel order changed. But NDCG still shows it as having less disagreement with orig
+    """
+    
+def test_alphacharacters():
+    pass
+
+def test_edge_sizes_of_lists():
+    pass
+
+def test_unusual_case_2():
+    pass
