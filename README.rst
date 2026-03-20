@@ -35,6 +35,8 @@ Documentation
 
 For full documentation, visit the `project page <https://github.com/deil87/dprs>`_.
 
+Note this package is work in progress. See `./Learning to rank/LTR with custom loss function.ipynb` for examples of applying it as optimisation target for NeuralNetworks.
+
 License
 -------
 
